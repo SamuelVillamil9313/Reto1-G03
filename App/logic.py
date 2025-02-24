@@ -1,11 +1,25 @@
 import time
 
+import csv
+
+from DataStructures.List import single_linked_list as sl
+from DataStructures.List import array_list as al
+from DataStructures.Queue import queue as q
+from DataStructures.Stack import stack as st
+
+csv.field_size_limit(2147483647)
+
 def new_logic():
     """
     Crea el catalogo para almacenar las estructuras de datos
     """
     #TODO: Llama a las funciónes de creación de las estructuras de datos
-    pass
+    catalog = {'books': None,
+               'authors': None,
+               'tags': None,
+               'book_tags': None,
+               'books_to_read': None,
+               'book_sublist': None}
 
 
 # Funciones para la carga de datos
