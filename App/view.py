@@ -1,16 +1,21 @@
 import sys
 
+import App.logic as log
+
+import os
 default_limit=1000
 
 sys.setrecursionlimit(default_limit*10)
 
+data_dir = os.path.dirname(os.path.realpath('__file__')) + '/Data/'
 
 def new_logic():
     """
         Se crea una instancia del controlador
     """
     #TODO: Llamar la función de la lógica donde se crean las estructuras de datos
-    pass
+    catalog=log.new_logic()
+    return catalog
 
 def print_menu():
     print("Bienvenido")
@@ -29,8 +34,27 @@ def load_data(control):
     """
     Carga los datos
     """
-    #TODO: Realizar la carga de datos
-    pass
+    frame=log.dataframe()
+    size=log.load_data(control,frame)
+    
+    ult=log.greater_year(control)
+    prim=log.lesser_year(control)
+    
+    first=log.primeros(control)
+    last=log.ultimos(control)
+    
+    print("Número de registros: ", size)
+    print("Último año de registro: ", ult)
+    print("Primer año de registro reportado: ", prim)
+    print("Primeros 5 registros cargados: ")
+    print("...")
+    print(first)
+    print("...")
+    print("Últimos 5 registros cargados: ")
+    print("...")
+    print(last)
+    
+    return control
 
 
 def print_data(control, id):

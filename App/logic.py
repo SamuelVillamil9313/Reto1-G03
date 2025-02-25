@@ -2,10 +2,16 @@ import time
 
 import csv
 
+import pandas as pd
+
+import os
+
 from DataStructures.List import single_linked_list as sl
 from DataStructures.List import array_list as al
-from DataStructures.Queue import queue as q
+from DataStructures.Queue import queue as qu
 from DataStructures.Stack import stack as st
+
+data_dir = os.path.dirname(os.path.realpath('__file__')) + '/Data/'
 
 csv.field_size_limit(2147483647)
 
@@ -14,23 +20,129 @@ def new_logic():
     Crea el catalogo para almacenar las estructuras de datos
     """
     #TODO: Llama a las funciónes de creación de las estructuras de datos
-    catalog = {'books': None,
-               'authors': None,
-               'tags': None,
-               'book_tags': None,
-               'books_to_read': None,
-               'book_sublist': None}
+    
+    catalog = {'source': None,
+               'commodity': None,
+               'statical_category': None,
+               'unit_measurement': None,
+               'state_name': None,
+               'location': None,
+               'year_collection': None,
+               'freq_collection': None,
+               'reference_period': None,
+               'load_time': None,
+               'value': None}
 
+    catalog['source'] = al.new_list()
+    catalog['commodity'] = al.new_list()
+    catalog['statical_category'] = al.new_list()
+    catalog['unit_measurement'] = al.new_list()
+    catalog['state_name'] = al.new_list()
+    catalog["location"] = al.new_list()
+    catalog["year_collection"] = al.new_list()
+    catalog["freq_collection"] = al.new_list()
+    catalog["reference_period"] = al.new_list()
+    catalog["load_time"] = al.new_list()
+    catalog["value"] = al.new_list()
+    return catalog
+
+def dataframe():
+    """
+    Crea un dataframe a partir de los datos del archivo escogido para
+    facilitar el acceso a los mismos, y poder cargarlos fácilmente a la 
+    las listas.
+    """
+    
+    frame=pd.read_csv(data_dir+"agricultural-20.csv")
+    return frame
 
 # Funciones para la carga de datos
 
-def load_data(catalog, filename):
-    """
-    Carga los datos del reto
-    """
-    # TODO: Realizar la carga de datos
-    pass
+def carga(dataframe,catalog,columna:str):
+    for i in dataframe[columna]:
+        al.add_last(catalog[columna],i)
+    
 
+def load_data(catalog, dataframe):
+    """
+    Carga los datos del DataFrame en el catálogo.
+    """
+    
+    print (catalog["source"])
+    carga(dataframe, catalog, 'source')
+    
+    source_size = catalog["source"]["size"]
+    
+    carga(dataframe, catalog, 'commodity')
+    carga(dataframe, catalog, 'statical_category')
+    carga(dataframe, catalog, 'unit_measurement')
+    carga(dataframe, catalog, 'state_name')
+    carga(dataframe, catalog, 'location')
+    carga(dataframe, catalog, 'year_collection')
+    carga(dataframe, catalog, 'freq_collection')
+    carga(dataframe, catalog, 'reference_period')
+    carga(dataframe, catalog, 'load_time')
+    carga(dataframe, catalog, 'value')
+    
+    return source_size
+
+def lesser_year(catalog):
+    año=catalog["year_collection"]["elements"][0]
+    for i in catalog["year_collection"]["elements"]:
+        if año > i:
+            año=i
+    return año
+
+def greater_year(catalog):
+    año=catalog["year_collection"]["elements"][0]
+    for i in catalog["year_collection"]["elements"]:
+        if año < i:
+            año=i
+    return año
+
+def primeros(catalog):
+    final=[]
+    transitoria=[]
+    info = {'source': None,
+               'unit_measurement': None,
+               'state_name': None,
+               'year_collection': None,
+               'load_time': None,
+               'value': None,}
+    for indice in range(0,5):
+        for llave in catalog:
+            transitoria.append(catalog[llave]["elements"][indice])
+        info["source"]=transitoria[0]
+        info["unit_measurement"]=transitoria[3]
+        info["state_name"]=transitoria[4]
+        info["year_collection"]=transitoria[6]
+        info["load_time"]=transitoria[9]
+        info["value"]=transitoria[10]
+        final.append(info)
+        transitoria=[]
+    return final
+
+def ultimos(catalog):
+    final=[]
+    transitoria=[]
+    info = {'source': None,
+               'unit_measurement': None,
+               'state_name': None,
+               'year_collection': None,
+               'load_time': None,
+               'value': None,}
+    for indice in range(-6,-1):
+        for llave in catalog:
+            transitoria.append(catalog[llave]["elements"][indice])
+        info["source"]=transitoria[0]
+        info["unit_measurement"]=transitoria[3]
+        info["state_name"]=transitoria[4]
+        info["year_collection"]=transitoria[6]
+        info["load_time"]=transitoria[9]
+        info["value"]=transitoria[10]
+        final.append(info)
+        transitoria=[]
+    return final
 # Funciones de consulta sobre el catálogo
 
 def get_data(catalog, id):
