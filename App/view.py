@@ -69,7 +69,13 @@ def print_req_1(control):
         Función que imprime la solución del Requerimiento 1 en consola
     """
     # TODO: Imprimir el resultado del requerimiento 1
-    pass
+    
+    print(type(control["year_collection"]["elements"][0]))
+    anno=input("Inserte año de interés: ")
+    datos=log.req_1(control,anno)
+    print("El último registro de ese año es: ",datos[0])
+    print("Un total de: ", datos[2], " registros pasaron el filtro por año.")
+    print("La acción tomó: ", datos[1], "ms")
 
 
 def print_req_2(control):

@@ -67,8 +67,6 @@ def load_data(catalog, dataframe):
     """
     Carga los datos del DataFrame en el catálogo.
     """
-    
-    print (catalog["source"])
     carga(dataframe, catalog, 'source')
     
     source_size = catalog["source"]["size"]
@@ -107,6 +105,7 @@ def primeros(catalog):
                'unit_measurement': None,
                'state_name': None,
                'year_collection': None,
+                "freq_collection":None,
                'load_time': None,
                'value': None,}
     for indice in range(0,5):
@@ -153,12 +152,50 @@ def get_data(catalog, id):
     pass
 
 
-def req_1(catalog):
+def req_1(catalog,anno):
     """
     Retorna el resultado del requerimiento 1
     """
     # TODO: Modificar el requerimiento 1
-    pass
+    
+    start_time=get_time()
+    
+    lista_fechas=[]
+    info = {'source': None,
+            'commodity': None,
+               'unit_measurement': None,
+               'state_name': None,
+               'year_collection': None,
+               'load_time': None,
+               'value': None,}
+    
+    for i in range(catalog["year_collection"]["size"]):
+        if catalog["year_collection"]["elements"][i] == int(anno):
+            lista_fechas.append(catalog["load_time"]["elements"][i])
+    
+    pasaron=len(lista_fechas)
+    ultima=max(lista_fechas)
+    
+    for k in range(catalog["load_time"]["size"]):
+        if (str(ultima) == catalog["load_time"]["elements"][k]) and (int(anno)==catalog["year_collection"]["elements"][k]):
+            info["source"]=catalog["source"]["elements"][k]
+            info["commodity"]=catalog["commodity"]["elements"][k]
+            info["unit_measurement"]=catalog["unit_measurement"]["elements"][k]
+            info["state_name"]=catalog["state_name"]["elements"][k]
+            info["year_collection"]=catalog["year_collection"]["elements"][k]
+            info["load_time"]=catalog["load_time"]["elements"][k]
+            info["value"]=catalog["value"]["elements"][k]
+    
+    end_time=get_time()
+    
+    req_1_time=delta_time(start_time,end_time)
+    
+    return(info,req_1_time,pasaron)
+    
+    
+            
+        
+    
 
 
 def req_2(catalog):
