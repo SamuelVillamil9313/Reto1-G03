@@ -103,7 +103,7 @@ def print_req_3(control):
     print("Total de registros con origen SURVEY: ",datos[1])
     print("Total de registros con origen CENSUS: ",datos[2])
     print("...")
-    print("La acción tomo: ", datos[4],"ms")
+    print("La acción tomó: ", datos[4],"ms")
 
 
 def print_req_4(control):
@@ -113,7 +113,7 @@ def print_req_4(control):
     # TODO: Imprimir el resultado del requerimiento 4
     anno_i=input("Inserte año de inicio: ")
     anno_f=input("Inserte año final: ")
-    product=input("inserte nombre de departamento/estado: ")
+    product=input("inserte nombre del producto de interés: ")
     datos=log.req_4(control,product,anno_i,anno_f)
     
     print("Listado de registros: ", datos[0])
@@ -123,7 +123,7 @@ def print_req_4(control):
     print("Total de registros con origen SURVEY: ",datos[1])
     print("Total de registros con origen CENSUS: ",datos[2])
     print("...")
-    print("La acción tomo: ", datos[4],"ms")
+    print("La acción tomó: ", datos[4],"ms")
 
 
 def print_req_5(control):
@@ -131,7 +131,19 @@ def print_req_5(control):
         Función que imprime la solución del Requerimiento 5 en consola
     """
     # TODO: Imprimir el resultado del requerimiento 5
-    pass
+    anno_i=input("Inserte año de inicio: ")
+    anno_f=input("Inserte año final: ")
+    product=input("inserte categoría estadística: ")
+    datos=log.req_5(control,product,anno_i,anno_f)
+    
+    print("Listado de registros: ", datos[0])
+    print("...")
+    print("Un total de: ", datos[3], " registros pasaron el filtro por año.")
+    print("...")
+    print("Total de registros con origen SURVEY: ",datos[1])
+    print("Total de registros con origen CENSUS: ",datos[2])
+    print("...")
+    print("La acción tomó: ", datos[4],"ms")
 
 
 def print_req_6(control):

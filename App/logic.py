@@ -53,7 +53,7 @@ def dataframe():
     las listas.
     """
     
-    frame=pd.read_csv(data_dir+"agricultural-20.csv")
+    frame=pd.read_csv(data_dir+"agricultural-100.csv")
     return frame
 
 # Funciones para la carga de datos
@@ -230,7 +230,7 @@ def req_3(catalog,nombre,anno_i,anno_f):
                'state_name': None,
                'year_collection': None,
                'load_time': None,
-               'value': None,}
+               'freq_collection': None,}
     
     lista=al.new_list()
     
@@ -295,7 +295,7 @@ def req_4(catalog,product,anno_i,anno_f):
                'state_name': None,
                'year_collection': None,
                'load_time': None,
-               'value': None,}
+               'freq_collection': None,}
     
     lista=al.new_list()
     
@@ -334,12 +334,63 @@ def req_4(catalog,product,anno_i,anno_f):
     return (lista,survey,census,pasaron,req3_time)
 
 
-def req_5(catalog):
+def req_5(catalog, category, anno_i,anno_f):
     """
     Retorna el resultado del requerimiento 5
     """
     # TODO: Modificar el requerimiento 5
-    pass
+    start_time=get_time()
+    
+    if anno_f<anno_i:
+        return "No es un intervalo válido. Intente de nuevo..."    
+    survey=0
+    census=0
+    
+    info = {'source': None,
+            'commodity': None,
+               'unit_measurement': None,
+               'state_name': None,
+               'year_collection': None,
+               'load_time': None,
+               'freq_collection': None,}
+    
+    lista=al.new_list()
+    
+    for i in range(al.size(catalog["year_collection"])):
+        if (catalog["statical_category"]["elements"][i] == category) and (int(anno_i) <= catalog["year_collection"]["elements"][i] <= int(anno_f)):
+            info["source"]=catalog["source"]["elements"][i]
+            info["commodity"]=catalog["commodity"]["elements"][i]
+            info["unit_measurement"]=catalog["unit_measurement"]["elements"][i]
+            info["state_name"]=catalog["state_name"]["elements"][i]
+            info["year_collection"]=catalog["year_collection"]["elements"][i]
+            info["load_time"]=catalog["load_time"]["elements"][i]
+            info["freq_collection"]=catalog["freq_collection"]["elements"][i]
+            info["statical_category"]=catalog["statical_category"]["elements"][i]
+
+            al.add_last(lista,info)
+            
+            if catalog["source"]["elements"][i] == "SURVEY":
+                survey+=1
+            else:
+                census+=1
+            
+            
+    pasaron=al.size(lista)
+    
+    if pasaron > 20:
+        nova_lista=al.new_list()
+        for i in range(0,5):
+            al.add_last(nova_lista,lista["elements"][i])
+        for i in range(-6,-1):
+            al.add_last(nova_lista,lista["elements"][i])
+        lista=nova_lista
+    
+    end_time=get_time()
+    
+    req3_time=delta_time(start_time,end_time)
+    
+    return (lista,survey,census,pasaron,req3_time)
+
 
 def req_6(catalog):
     """
