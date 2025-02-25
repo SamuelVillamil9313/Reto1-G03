@@ -111,7 +111,19 @@ def print_req_4(control):
         Función que imprime la solución del Requerimiento 4 en consola
     """
     # TODO: Imprimir el resultado del requerimiento 4
-    pass
+    anno_i=input("Inserte año de inicio: ")
+    anno_f=input("Inserte año final: ")
+    product=input("inserte nombre de departamento/estado: ")
+    datos=log.req_4(control,product,anno_i,anno_f)
+    
+    print("Listado de registros: ", datos[0])
+    print("...")
+    print("Un total de: ", datos[3], " registros pasaron el filtro por año.")
+    print("...")
+    print("Total de registros con origen SURVEY: ",datos[1])
+    print("Total de registros con origen CENSUS: ",datos[2])
+    print("...")
+    print("La acción tomo: ", datos[4],"ms")
 
 
 def print_req_5(control):
